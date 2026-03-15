@@ -98,4 +98,20 @@ class MLPipeline:
     def run(self):
         self.load_data()
         self.clean_data()
-        return self.calculate_metrics()
+        self.calculate_metrics()
+        
+        # Save cleaned CSV
+        base_dir = os.path.dirname(os.path.dirname(self.file_path))
+        cleaned_dir = os.path.join(base_dir, 'cleaned')
+        os.makedirs(cleaned_dir, exist_ok=True)
+        
+        filename = os.path.basename(self.file_path)
+        name, ext = os.path.splitext(filename)
+        cleaned_filename = os.path.join(cleaned_dir, f"{name}_cleaned{ext}")
+        
+        self.cleaned_df.to_csv(cleaned_filename, index=False)
+        
+        return {
+            **self.metrics,
+            "cleaned_file_path": cleaned_filename
+        }
