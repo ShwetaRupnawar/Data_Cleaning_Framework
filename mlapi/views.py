@@ -55,9 +55,16 @@ class DatasetUploadView(APIView):
                 os.remove(cleaned_path)
 
             # SAVE METRICS
-            dataset.raw_accuracy = float(results.get("raw_score", 0))
-            dataset.cleaned_accuracy = float(results.get("cleaned_score", 0))
-            dataset.improvement = float(results.get("improvement", 0))
+            # Extract nested metrics
+            metrics = results.get("metrics", {})
+            raw_stats = results.get("raw_stats", {})
+            cleaned_stats = results.get("cleaned_stats", {})
+            cleaning_report = results.get("cleaning_report", {})
+
+            # SAVE METRICS
+            dataset.raw_accuracy = float(metrics.get("raw_score", 0))
+            dataset.cleaned_accuracy = float(metrics.get("cleaned_score", 0))
+            dataset.improvement = float(metrics.get("improvement", 0))
 
             dataset.status = "completed"
             dataset.save()
@@ -72,6 +79,9 @@ class DatasetUploadView(APIView):
                         "cleaned_accuracy": dataset.cleaned_accuracy,
                         "improvement": dataset.improvement
                     },
+                    "raw_stats": raw_stats,
+                    "cleaned_stats": cleaned_stats,
+                    "cleaning_report": cleaning_report,
                     "cleaned_file_url": request.build_absolute_uri(dataset.cleaned_file.url)
                     if dataset.cleaned_file else None
                 },
