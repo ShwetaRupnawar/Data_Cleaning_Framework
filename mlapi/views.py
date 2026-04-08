@@ -77,7 +77,8 @@ class DatasetUploadView(APIView):
                     "metrics": {
                         "raw_accuracy": dataset.raw_accuracy,
                         "cleaned_accuracy": dataset.cleaned_accuracy,
-                        "improvement": dataset.improvement
+                        "improvement": dataset.improvement,
+                        "best_strategy": metrics.get("best_strategy")
                     },
                     "raw_stats": raw_stats,
                     "cleaned_stats": cleaned_stats,

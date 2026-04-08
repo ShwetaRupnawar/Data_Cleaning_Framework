@@ -1,31 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-  --primary: #6366f1;
-  --primary-glow: rgba(99, 102, 241, 0.4);
-  --secondary: #a855f7;
-  --bg-dark: #0f172a;
-  --bg-card: rgba(30, 41, 59, 0.7);
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --border-light: rgba(255, 255, 255, 0.1);
+  /* Premium Palette - Midnight Obsidian & Vibrant Emerald */
+  --primary: #10b981; 
+  --primary-glow: rgba(16, 185, 129, 0.15);
+  --primary-hover: #059669;
+  --secondary: #0ea5e9;
   --success: #10b981;
   --danger: #ef4444;
+  --warning: #f59e0b;
+  --font-plus: 'Plus Jakarta Sans', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
 
-  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  /* Theme-specific (Dark - Forensic Obsidian) */
+  --bg-dark: #020606;
+  --bg-card: rgba(10, 15, 15, 0.7);
+  --bg-glass: rgba(255, 255, 255, 0.02);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #475569;
+  --border-light: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(16, 185, 129, 0.2);
+  --selection: rgba(16, 185, 129, 0.15);
+}
+
+.light-theme {
+  /* Theme-specific (Light - Clean Arctic) */
+  --bg-dark: #fbfcfd;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-glass: rgba(16, 185, 129, 0.03);
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-dim: #94a3b8;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(16, 185, 129, 0.15);
+  --selection: rgba(16, 185, 129, 0.08);
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--sans);
+  font-family: var(--font-plus);
   background: var(--bg-dark);
   color: var(--text-main);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Animated Mesh Gradient Background */
   background-image: 
-    radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.15), transparent 25%);
+    radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.03) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.02) 0px, transparent 50%),
+    radial-gradient(at 40% 100%, rgba(16, 185, 129, 0.03) 0px, transparent 50%);
   background-attachment: fixed;
-  display: flex;
-  flex-direction: column;
 }
 
 #root {
@@ -37,19 +65,84 @@ body {
 
 * {
   box-sizing: border-box;
+  outline: none;
 }
 
-/* Scrollbar */
+/* Glassmorphism Utilities */
+.glass-effect {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid var(--border-light);
+}
+
+/* Typography Refinements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-outfit);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Custom Scrollbar - Minimalist */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-card);
-  border-radius: 4px;
+  background: rgba(16, 185, 129, 0.1);
+  border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
+}
+
+/* Button & Interactive States */
+button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-plus);
+  font-weight: 600;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+.card-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-hover);
+  box-shadow: 0 12px 40px -12px rgba(0,0,0,0.5);
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.3; }
+}
+
+.pulse {
+  animation: pulse-slow 3s infinite ease-in-out;
 }
